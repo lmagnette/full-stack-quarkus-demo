@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './TodoApp.css'; // Import the CSS file
 
-// Define the base URL for your API endpoint
 const API_URL = '/api/todos';
 
 const TodoApp = () => {
@@ -143,93 +141,97 @@ const TodoApp = () => {
       console.error("Failed to delete todo:", e);
       setError("Failed to delete todo");
     }
-  }
+  };
 
   return (
-      <div className="todo-container">
-        <h1 className="todo-title">Todo App</h1>
-
-        <div className="add-todo-section">
-          <h2 className="section-title">Add New Todo</h2>
-          <div className="input-group">
-            <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="text-input"
-            />
-          </div>
-          <div className="input-group">
-          <textarea
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="textarea-input"
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">My Todo App</h1>
+      
+      <div className="mb-6 p-4 bg-gray-100 rounded">
+        <h2 className="text-lg font-semibold mb-2">Add New Todo</h2>
+        <div className="mb-2">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2 border rounded mb-2"
           />
-          </div>
-          <div className="input-group">
-            <input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="date-input"
-            />
-          </div>
-          <button
-              onClick={addTodo}
-              className="btn btn-primary"
-          >
-            Add Todo
-          </button>
         </div>
-
-        <div>
-          <h2 className="section-title">Your Todos</h2>
-          {todos.length === 0 ? (
-              <p className="empty-message">No todos yet. Add one above!</p>
-          ) : (
-              <div className="todo-list">
-                {todos.map(todo => (
-                    <div
-                        key={todo.id}
-                        className={`todo-item ${todo.completed ? 'completed' : ''}`}
-                    >
-                      <div className="todo-header">
-                        <div className="todo-content">
-                          <h3 className="todo-title-text">
-                            {todo.title}
-                          </h3>
-                          <p className="todo-description">
-                            {todo.description}
-                          </p>
-                          {todo.dueDate && (
-                              <p className="todo-due-date">
-                                Due: {new Date(todo.dueDate).toLocaleDateString()}
-                              </p>
-                          )}
-                        </div>
-                        <div className="todo-actions">
-                          <button
-                              onClick={() => toggleComplete(todo.id)}
-                              className={`btn ${todo.completed ? 'btn-warning' : 'btn-success'}`}
-                          >
-                            {todo.completed ? 'Undo' : 'Complete'}
-                          </button>
-                          <button
-                              onClick={() => deleteTodo(todo.id)}
-                              className="btn btn-danger"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                ))}
-              </div>
-          )}
+        <div className="mb-2">
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border rounded mb-2"
+          />
         </div>
+        <div className="mb-2">
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="w-full p-2 border rounded mb-2"
+          />
+        </div>
+        <button 
+          onClick={addTodo}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Add Todo
+        </button>
       </div>
+      
+      <div>
+        <h2 className="text-lg font-semibold mb-2">Your Todos</h2>
+        {todos.length === 0 ? (
+          <p className="text-gray-500">No todos yet. Add one above!</p>
+        ) : (
+          <div className="space-y-4">
+            {todos.map(todo => (
+              <div 
+                key={todo.id} 
+                className={`p-4 border rounded ${todo.completed ? 'bg-green-50' : 'bg-white'}`}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className={`text-lg font-medium ${todo.completed ? 'line-through text-gray-500' : ''}`}>
+                      {todo.title}
+                    </h3>
+                    <p className={`mt-1 ${todo.completed ? 'text-gray-500' : ''}`}>
+                      {todo.description}
+                    </p>
+                    {todo.dueDate && (
+                      <p className="mt-2 text-sm text-gray-600">
+                        Due: {new Date(todo.dueDate).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex space-x-2">
+                    <button 
+                      onClick={() => toggleComplete(todo.id)}
+                      className={`px-3 py-1 rounded ${
+                        todo.completed 
+                          ? 'bg-yellow-500 hover:bg-yellow-600' 
+                          : 'bg-green-500 hover:bg-green-600'
+                      } text-white`}
+                    >
+                      {todo.completed ? 'Undo' : 'Complete'}
+                    </button>
+                    <button 
+                      onClick={() => deleteTodo(todo.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

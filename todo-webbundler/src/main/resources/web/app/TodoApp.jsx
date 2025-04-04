@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TodoApp.css'; // Import the CSS file
 
 // Define the base URL for your API endpoint
-const API_URL = '/api/todos';
+const API_URL = '/api/todo';
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);

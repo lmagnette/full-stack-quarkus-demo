@@ -1,151 +1,58 @@
-import React, { useState, useEffect } from 'react';
-
-const API_URL = '/api/todos';
+import React, { useState } from 'react';
 
 const TodoApp = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {
+      id:1,
+      title: "Introduce Quinoa",
+      description: "Show how quinoa works and how easy it is to use",
+      dueDate: Date.now(),
+      completed: false
+    },
+    {
+      id:2,
+      title: "Introduce Web bundler",
+      description: "Show how to get rid of npm and still use js based front-end",
+      dueDate: Date.now(),
+      completed: false
+    }
+  ]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // To show loading state
-  const [error, setError] = useState(null); // To show error messages
 
-  // --- Fetch Todos on Component Mount ---
-  useEffect(() => {
-    const fetchTodos = async () => {
-      setIsLoading(true);
-      setError(null); // Clear previous errors
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setTodos(data); // Set todos from the API response
-      } catch (e) {
-        console.error("Failed to fetch todos:", e);
-        setError("Failed to load todos. Please try again later.");
-        setTodos([]); // Clear todos on error
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTodos();
-  }, []); // Empty dependency array means this runs once when the component mounts
-
-  // --- Add Todo ---
-  const addTodo = async () => {
+  const addTodo = () => {
     if (title.trim() === '') return;
 
-    const newTodoData = {
-      // The backend should assign the 'id'
+    const newTodo = {
+      id: Date.now(),
       title,
       description,
-      dueDate: dueDate || null, // Send null if date is empty
+      dueDate,
       completed: false
     };
 
-    setIsLoading(true); // Indicate loading for the add operation
-    setError(null);
-
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTodoData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const addedTodo = await response.json(); // Get the created todo (with ID) from API
-      setTodos([...todos, addedTodo]); // Add the new todo to the local state
-      // Clear the form
-      setTitle('');
-      setDescription('');
-      setDueDate('');
-    } catch (e) {
-      console.error("Failed to add todo:", e);
-      setError("Failed to add todo. Please try again.");
-    } finally {
-      setIsLoading(false); // Stop loading indicator for add operation
-    }
+    setTodos([...todos, newTodo]);
+    setTitle('');
+    setDescription('');
+    setDueDate('');
   };
 
-  // --- Toggle Complete Status ---
-  const toggleComplete = async (id) => {
-    const todoToUpdate = todos.find(todo => todo.id === id);
-    if (!todoToUpdate) return;
-
-    const updatedStatus = !todoToUpdate.completed;
-
-    setError(null); // Clear previous errors
-
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT', // Or 'PATCH' if your API supports partial updates
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Send only the field(s) that changed if using PATCH
-        // body: JSON.stringify({ completed: updatedStatus }),
-        // Or send the whole updated object if using PUT
-        body: JSON.stringify({ ...todoToUpdate, completed: updatedStatus }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // Option 1: If API returns the updated todo
-      // const updatedTodo = await response.json();
-      // setTodos(todos.map(todo => (todo.id === id ? updatedTodo : todo)));
-
-      // Option 2: If API returns success (e.g., 200 OK/204 No Content) without the body
-      setTodos(
-          todos.map(todo =>
-              todo.id === id ? { ...todo, completed: updatedStatus } : todo
-          )
-      );
-
-    } catch (e) {
-      console.error("Failed to toggle complete status:", e);
-      setError("Failed to update todo status. Please try again.");
-      // Note: No state reversion here, the UI reflects the last successful state or initial load
-    }
-    // No specific loading state for toggle, but you could add one if needed
+  const toggleComplete = (id) => {
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
-  // --- Delete Todo ---
-  const deleteTodo = async (id) => {
-    setError(null); // Clear previous errors
-
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        // Handle specific errors like 404 Not Found if necessary
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // If DELETE is successful, update the local state
-      setTodos(todos.filter(todo => todo.id !== id));
-
-    } catch (e) {
-      console.error("Failed to delete todo:", e);
-      setError("Failed to delete todo");
-    }
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">My Todo App</h1>
+      <h1 className="text-2xl font-bold mb-4">Todo App</h1>
       
       <div className="mb-6 p-4 bg-gray-100 rounded">
         <h2 className="text-lg font-semibold mb-2">Add New Todo</h2>

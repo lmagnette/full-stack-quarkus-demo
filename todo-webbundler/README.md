@@ -81,3 +81,8 @@ This is a tiny app `web-bundler.html` to get started with the Web Bundler. Once 
 
 [Related guide section...](https://docs.quarkiverse.io/quarkus-web-bundler/dev/)
 
+### Start DB
+```shell
+docker run --name postgres-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
+```
+

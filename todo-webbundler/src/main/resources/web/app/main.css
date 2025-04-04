@@ -1,0 +1,149 @@
+/* Todo App CSS */
+.todo-container {
+  max-width: 672px;
+  margin: 0 auto;
+  padding: 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.todo-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.add-todo-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.input-group {
+  margin-bottom: 8px;
+}
+
+.text-input, .textarea-input, .date-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.textarea-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.empty-message {
+  color: #6b7280;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.todo-item {
+  padding: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.todo-item.completed {
+  background-color: #ecfdf5;
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.todo-content {
+  flex: 1;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.todo-title-text {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.completed .todo-title-text {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+.todo-description {
+  margin-top: 4px;
+}
+
+.completed .todo-description {
+  color: #6b7280;
+}
+
+.todo-due-date {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4b5563;
+}
